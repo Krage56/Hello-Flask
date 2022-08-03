@@ -1,9 +1,12 @@
+import flask
+
 from app import app
 from flask import request
 from flask import Response
 import json
 from app.logic.json_generator import get_random_json
 from app.logic.find_matches import get_matches
+from app.logic.mp3_converter import convert
 
 
 @app.route('/keys', methods=['GET'])
@@ -40,3 +43,10 @@ def find_matches():
     if j_data is None:
         return Response(json.dumps({}))
     return Response(json.dumps(get_matches(val, j_data)))
+
+
+@app.route('/convert', methods=['GET'])
+def convert_data():
+    j_data = request.get_json()
+    b_streams = convert(j_data)
+    return flask.send_file(b_streams, mimetype="audio/mpeg")
