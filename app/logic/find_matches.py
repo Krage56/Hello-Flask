@@ -54,7 +54,8 @@ def transform_value(val):
 def get_matches(val, j_dict):
     res = []
     val = transform_value(val)
-    for key, value in j_dict.items():
-        if val == value:
-            res.append(key)
+    if type(j_dict) == type(dict()):
+        for key, value in j_dict.items():
+            if val == value:
+                res.append(key)
     return res
